@@ -1,0 +1,29 @@
+[
+  {
+    "topic": "Park",
+    "questions": [
+      { "id": "park-1", "text": "Tell me about a park you often visit." },
+      { "id": "park-2", "text": "What do you usually do there?" },
+      { "id": "park-3", "text": "Describe a memorable experience you had there." }
+    ]
+  },
+  {
+    "topic": "Cafe",
+    "questions": [
+      { "id": "cafe-1", "text": "Describe your favorite cafe." },
+      { "id": "cafe-2", "text": "What do you usually order there?" },
+      { "id": "cafe-3", "text": "Who do you usually go with and why?" }
+    ]
+  },
+  {
+    "topic": "Movies",
+    "questions": [
+      { "id": "movies-1", "text": "Talk about the types of movies you like to watch." },
+      { "id": "movies-2", "text": "Describe the last movie you watched." },
+      {
+        "id": "movies-3",
+        "text": "Tell me about a memorable experience you had at a movie theater."
+      }
+    ]
+  }
+]
