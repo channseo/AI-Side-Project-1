@@ -27,3 +27,6 @@ coverage
 Thumbs.db
 
 *.local
+
+# Claude Code
+.claude
