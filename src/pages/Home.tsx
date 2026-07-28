@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
+import { AuthStatus } from '@/components/AuthStatus'
 import { useInView } from '@/hooks/useInView'
 
 const steps = [
@@ -32,7 +33,7 @@ const levelBadges = [
 const faqs = [
   {
     question: '로그인이 꼭 필요한가요?',
-    answer: '아니요. 회원가입/로그인 없이 바로 연습을 시작할 수 있어요.',
+    answer: '아니요. 로그인 없이도 바로 연습을 시작할 수 있어요. 계정을 만들면 다음에도 로그인 상태가 유지돼요.',
   },
   {
     question: '녹음한 음성이 저장되나요?',
@@ -67,6 +68,7 @@ export function Home() {
 
   return (
     <main className="flex min-h-screen flex-col bg-background">
+      <AuthStatus />
       <section className="flex flex-col items-center gap-6 px-5 py-20 text-center md:py-24">
         <span className="rounded-full bg-primary-light px-4 py-1.5 text-sm font-bold text-primary">
           AI 기반 OPIC 스피킹 코치

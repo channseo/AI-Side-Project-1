@@ -75,7 +75,8 @@ backend/               # 백엔드 (Node.js + Express)
 
 - **IMPORTANT: `.env` 파일은 절대 커밋하지 마세요.** `VITE_` 접두사 변수는 빌드 결과물에 그대로 노출되므로 비밀 키를 넣지 말 것
 - 새 의존성을 추가하기 전에 먼저 알려주세요 (번들 크기 영향 검토)
-- MVP에 인증/로그인 없음 — 사용자 계정 없이 비회원 세션 단위로만 동작
+- 이메일/비밀번호 기반 선택적 회원가입/로그인 지원 (`/signup`, `/login`, Supabase Auth 사용). 단, mock interview 진행 자체는 로그인 없이도 가능해야 하며, `interview_results`는 여전히 `user_id` 없이 세션 단위로 저장됨
+- Supabase Auth 호출(`signUp`/`signInWithPassword`/`signOut`/`onAuthStateChange`)은 anon key로 프론트엔드에서 직접 수행 (RLS 기반 표준 패턴이므로 questions/analyze처럼 백엔드 경유가 필요하지 않음). 로그인 세션 상태는 `src/store/useAuthStore.ts`(Zustand)에서 관리
 - 답변 텍스트(STT 결과) 및 AI 분석 결과는 Supabase에 저장. 단, **음성 원본 파일은 저장하지 않음** — 브라우저에서 녹음 후 STT 전달, 변환 즉시 폐기
 - 분석 결과에 반드시 면책 문구 포함: "본 결과는 AI 기반 추정치이며 실제 OPIC 성적과 차이가 있을 수 있습니다."
 - 커밋 전 `pnpm run lint`와 빌드가 통과하는지 확인하세요
