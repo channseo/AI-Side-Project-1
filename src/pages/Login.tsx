@@ -2,10 +2,13 @@ import { useState } from 'react'
 
 import { Link, useNavigate } from 'react-router-dom'
 
+import { fetchProfile } from '@/api/profile'
 import { supabase } from '@/api/supabase'
+import { useProfileStore } from '@/store/useProfileStore'
 
 export function Login() {
   const navigate = useNavigate()
+  const setProfile = useProfileStore((state) => state.setProfile)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -16,16 +19,22 @@ export function Login() {
     setIsSubmitting(true)
     setErrorMessage(null)
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
+    const { error, data } = await supabase.auth.signInWithPassword({ email, password })
 
     setIsSubmitting(false)
 
-    if (error) {
-      setErrorMessage(error.message)
+    if (error || !data.user) {
+      setErrorMessage(error?.message ?? '로그인에 실패했어요. 다시 시도해주세요.')
       return
     }
 
-    navigate('/')
+    try {
+      const profile = await fetchProfile(data.user.id)
+      setProfile(profile)
+      navigate(profile.onboarding_completed ? '/dashboard' : '/onboarding')
+    } catch {
+      setErrorMessage('프로필 정보를 불러오지 못했어요. 새로고침 후 다시 시도해주세요.')
+    }
   }
 
   return (

@@ -2,10 +2,13 @@ import { useState } from 'react'
 
 import { Link, useNavigate } from 'react-router-dom'
 
+import { fetchProfile } from '@/api/profile'
 import { supabase } from '@/api/supabase'
+import { useProfileStore } from '@/store/useProfileStore'
 
 export function SignUp() {
   const navigate = useNavigate()
+  const setProfile = useProfileStore((state) => state.setProfile)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -27,12 +30,18 @@ export function SignUp() {
       return
     }
 
-    if (!data.session) {
+    if (!data.session || !data.user) {
       setSuccessMessage('가입이 완료됐어요. 이메일함에서 인증 링크를 확인해주세요.')
       return
     }
 
-    navigate('/')
+    try {
+      const profile = await fetchProfile(data.user.id)
+      setProfile(profile)
+      navigate(profile.onboarding_completed ? '/dashboard' : '/onboarding')
+    } catch {
+      setErrorMessage('프로필 정보를 불러오지 못했어요. 새로고침 후 다시 시도해주세요.')
+    }
   }
 
   return (
